@@ -1,0 +1,49 @@
+<h1 class="capitalize text-main-color text-2xl pt-[80px] text-center font-semibold bg-gray-100">
+    {{ selectedCat() }}
+</h1>
+
+<section class="grid grid-cols-1 md:grid-cols-[25%_minmax(0,1fr)] gap-4 p-5 items-start bg-gray-100">
+    <!-- Sidebar -->
+    <div>
+        <div class="sidebar-wrapper">
+            <p-accordion [activeIndex]="0">
+                <p-accordionTab header="Category">
+                    <ul class="category-list">
+                        <li class="m-2 cursor-pointer" (click)="getAllProducts()">
+                            All products
+                        </li>
+                        @for (cat of categoryDetails; track cat._id) {
+                        <li (click)="getAllProducts(cat._id)" class="m-2 cursor-pointer">
+                            {{ cat.name }}
+                        </li>
+                        }
+                    </ul>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div>
+        <div class="container mx-auto">
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @for (prod of allProducts(); track prod._id) { @if
+                (isInWishlist(prod._id)) {
+                <app-card [imageCover]="prod.imageCover.secure_url" [finalPrice]="prod.finalPrice"
+                    [description]="prod.description" [price]="prod.price" [discount]="prod.discount"
+                    [createdAt]="prod.createdAt" [title]="prod.title" [address]="prod.createdBy.address"
+                    [productId]="prod._id" [liked]="true" />
+                } @else {
+                <app-card [imageCover]="prod.imageCover.secure_url" [finalPrice]="prod.finalPrice"
+                    [description]="prod.description" [price]="prod.price" [discount]="prod.discount"
+                    [createdAt]="prod.createdAt" [title]="prod.title" [address]="prod.createdBy.address"
+                    [productId]="prod._id" [liked]="false" />
+                } }
+            </div>
+        </div>
+    </div>
+</section>
+<div class="card flex justify-center mt-4">
+    <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows"
+        [totalRecords]="totalRecords"></p-paginator>
+</div>

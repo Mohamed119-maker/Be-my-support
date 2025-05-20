@@ -1,0 +1,132 @@
+<nav class="bg-gray-100 border-gray-200 dark:bg-gray-900 shadow-lg mb-4 fixed top-0 left-0 w-full z-50 transition-all"
+    [class.p-2]="!isScrolling">
+    <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto px-4 py-4">
+        <a class="flex items-center support-button space-x-3 rtl:space-x-reverse">
+            <i class="fa-solid fa-wheelchair text-3xl"></i>
+            <h1 class="capitalize text-3xl font-bold text-blue-900">be my support</h1>
+        </a>
+        <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center 
+        text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 
+            focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700
+             dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+        </button>
+        <div class="hidden w-full flex-grow md:block md:w-auto" id="navbar-default">
+            <div class="flex flex-col items-center md:flex-row md:justify-between">
+                <ul class="font-medium flex flex-col justify-center mx-auto items-center p-4 md:p-0 mt-4 border border-gray-100 
+                    rounded-lg text-1xl md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0
+                     dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <li>
+                        <a routerLink="/home" routerLinkActive=""
+                            class="block py-2 px-3 text-main-color font-bold rounded-sm md:p-0"
+                            aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a routerLink="/products" routerLinkActive=""
+                            class="block py-2 px-3 text-main-color font-bold rounded-sm md:p-0"
+                            aria-current="page">Product</a>
+                    </li>
+                    <li>
+                        <a routerLink="about" routerLinkActive=""
+                            class="block py-2 px-3 text-main-color font-bold rounded-sm md:p-0"
+                            aria-current="page">About</a>
+                    </li>
+
+
+                </ul>
+
+                <ul class="font-medium md:flex md:items-center gap-2 p-4 md:p-0 mt-4 border border-gray-100 
+                    rounded-lg text-1xl md:flex-row md:space-x-2 rtl:space-x-reverse md:mt-0 md:border-0">
+                    <li>
+                        <a (click)="goToAddProduct()"
+                            class="block text-white px-4 py-2 rounded bg-main-color font-bold cursor-pointer"
+                            aria-current="page">Add
+                            Product <i class="fa-solid fa-plus"></i></a>
+                    </li>
+                    <div class="flex items-center justify-center gap-2">
+                        <li class="flex justify-center relative">
+                            <a routerLink="/wishlist" routerLinkActive="text-main-color rounded-[5px] "
+                                class="block py-2 px-2 text-xl" aria-current="page"><i
+                                    class="fa-solid fa-heart text-main-color"></i>
+                                <span class="bg-white text-main-color border border-sec-color text-xs 
+                                    font-medium me-2 px-2 py-0.4 rounded-full absolute top-0 left-4">{{
+                                    wishCount() }}</span></a>
+                        </li>
+                        <li>
+                            <a class="block py-2 px-3 text-[#38BDF8] rounded-sm md:p-0" aria-current="page">
+                                <div class="relative inline-block text-left">
+                                    <!-- Icon Button -->
+                                    <button (click)="toggleMenu()" class="focus:outline-none">
+                                        <i class="fa-solid fa-user text-[20px] cursor-pointer"></i>
+                                    </button>
+
+                                    @if (showMenu) {
+                                    <div
+                                        class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                                        <div
+                                            class="border border-b-2  px-4 py-2 text-sm text-main-color cursor-pointer flex justify-between items-center">
+                                            <p routerLink="/user-profile" class=" capitalize">
+                                                {{userName()}}
+                                            </p>
+                                            <i class="fa-solid fa-circle-user text-lg"></i>
+                                        </div>
+
+                                        <a routerLink="/login"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                            Login</a>
+                                        <a routerLink="/register"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">Register</a>
+
+                                        @if (loginDropDown()) {
+                                        <a routerLink="/reset-pass"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                            Reset Password</a>
+                                        <a (click)="logout()"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                                            LogOut</a>
+                                        }
+                                    </div>
+                                    }
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+</nav>
+
+@if (showInfoToAddProd()) {
+
+<div (click)="closeModal($event)" (window:keydown.escape)="showInfoToAddProd.set(false)"
+    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-lg relative">
+        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="showInfoToAddProd.set(false)">
+            ✕
+        </button>
+
+        <div class="space-y-2">
+            <h2 class="text-xl font-semibold text-blue-600 mb-4">You're not logged in</h2>
+            <p class="text-gray-700 mb-6">Please log in or create an account to continue using the site.</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a routerLink="/login" class="bg-main-color hover:bg-white hover:text-main-color hover:border
+                     hover:border-main-color text-white font-medium py-2 px-6 rounded-full transition">
+                    Log in now
+                </a>
+                <a routerLink="/register"
+                    class="border border-sec-color text-sec-color hover:bg-sec-color hover:text-white  font-medium py-2 px-6 rounded-full transition">
+                    Create an account
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+}

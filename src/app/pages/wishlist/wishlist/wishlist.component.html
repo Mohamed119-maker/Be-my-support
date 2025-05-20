@@ -1,0 +1,56 @@
+<section class="pt-[50px]">
+    <h1 class="text-3xl md:text-4xl font-bold text-center text-main-color my-2">
+        My Wishlist
+    </h1>
+
+    @for (prod of allProduct; track prod._id) {
+    <div class="card">
+        <div class="grid grid-cols-12 gap-4 grid-nogutter">
+            <div class="col-span-12">
+                <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4">
+                    <div class="md:w-40 relative">
+                        <img class="block xl:block mx-auto rounded-border w-full" [src]="prod.imageCover.secure_url"
+                            alt="Bamboo Watch" />
+                    </div>
+
+                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                            <div>
+                                <span class="font-medium text-secondary text-sm">{{
+                                    prod.title
+                                    }}</span>
+                                <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">
+                                    {{ prod.description }}
+                                </div>
+                            </div>
+                            <div class="bg-surface-100 dark:bg-surface-700 p-1" style="border-radius: 30px">
+                                <div class="bg-surface-0 dark:bg-surface-900 flex items-center gap-2 justify-center py-1 px-2"
+                                    style="
+                    border-radius: 30px;
+                    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+                  ">
+                                    <span class="text-surface-900 dark:text-surface-0 font-medium text-sm">{{
+                                        prod.discount
+                                        }}%</span>
+                                    <i class="pi pi-star-fill text-yellow-500"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col md:items-end gap-8">
+                            <span class="text-xl font-semibold text-surface-900 dark:text-surface-0">${{ prod.finalPrice
+                                }}</span>
+                            <div class="flex flex-row-reverse md:flex-row gap-2">
+                                <button (click)="deleteProduct(prod._id)" icon="pi pi-trash"
+                                    class="flex-auto md:flex-initial whitespace-nowrap py-3 px-2 rounded bg-main-color">
+                                    Delete Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</section>

@@ -1,0 +1,64 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-[#0E7490]">Users Management</h1>
+        <p class="text-gray-600">View, and delete registered users</p>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-md">
+        <table class="min-w-full text-sm text-left text-gray-700">
+            <thead class="bg-[#38BDF8] text-white">
+                <tr>
+                    <th class="px-6 py-3">#</th>
+                    <th class="px-6 py-3">Name</th>
+                    <th class="px-6 py-3">Email</th>
+                    <th class="px-6 py-3">Role</th>
+                    <th class="px-6 py-3 text-center">Actions</th>
+                </tr>
+            </thead>
+            @for (user of allUsers(); track $index) {
+            <tbody>
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="px-6 py-4">{{$index+1}}</td>
+                    <td class="px-6 py-4">{{user.userName}}</td>
+                    <td class="px-6 py-4">{{user.email}}</td>
+                    <td class="px-6 py-4">{{user.role}}</td>
+                    <td class="px-6 py-4 flex justify-center gap-2">
+                        <button class="bg-[#0E7490] text-white px-4 py-1 rounded hover:bg-[#0c637a]"
+                            (click)="viewSpeceficUser(user._id)">View</button>
+                        <button (click)="deleteUserByAdmin(user._id)"
+                            class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Delete <i
+                                class="fa-solid fa-trash-can text-white ps-1"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            }
+
+        </table>
+    </div>
+</div>
+
+@if (showInfo()) {
+
+<div (click)="closeModal($event)" (window:keydown.escape)="showInfo.set(false)"
+    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-lg relative">
+        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="showInfo.set(false)">
+            ✕
+        </button>
+
+        <h2 class="text-xl font-bold text-[#0E7490] mb-4">User Details</h2>
+
+        <div class="space-y-2 text-gray-700">
+            <p><span class="font-semibold">Name:</span> {{ selectedUser.userName }}</p>
+            <p><span class="font-semibold">Email:</span> {{ selectedUser.email }}</p>
+            <p><span class="font-semibold">Role:</span> {{ selectedUser.role }}</p>
+            @if (selectedUser.mobileNumber) {
+            <p><span class="font-semibold">Phone:</span> {{ selectedUser.mobileNumber }}</p>
+            }
+            @if (selectedUser.address) {
+            <p><span class="font-semibold">Address:</span> {{ selectedUser.address }}</p>
+            }
+        </div>
+    </div>
+</div>
+}

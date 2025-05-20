@@ -1,0 +1,354 @@
+<div class="px-6 bg-gray-100 min-h-screen">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-[#0E7490]">Products Management</h1>
+        <p class="text-gray-600">View,Update, and delete Products</p>
+    </div>
+
+    <div
+        class="bg-white rounded-2xl overflow-hidden shadow-lg border hover:shadow-xl transition-shadow p-3 cursor-pointer my-5">
+        <h2 class="text-2xl font-semibold mb-6 text-main-color text-center">Update OR Add new Product...</h2>
+        <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+
+            <!-- رفع صورة -->
+            <div class="flex flex-col items-center">
+                @let imageControl = addProductForm.get('imageCover');
+
+                @if (!previewUrl) {
+                <label for="productImage"
+                    class="w-full h-20 flex items-center justify-center bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+
+                </label>
+                }
+                @if (previewUrl) {
+                <div class="relative w-full">
+                    <i class="fa-solid fa-xmark absolute top-1 right-2" (click)="previewUrl=null"></i>
+                    <img [src]="previewUrl" alt="Preview" class="w-full h-20 object-contain rounded-lg border" />
+                </div>
+                }
+
+                <input id="productImage" type="file" accept="image/*" class="hidden"
+                    (change)="onFileSelected($event)" />
+                <p class="text-sm text-gray-500 mt-2">Click to choose an image</p>
+                @if (imageControl?.errors && imageControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (imageControl?.getError('required')) {
+                            <li>Image cover is required.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="grid md:grid-cols-4 gap-4 ">
+                @for (url of previewSubUrls; track $index) {
+                <div class="flex flex-col items-center">
+                    <label [for]="'productSubImage' + $index"
+                        class="w-full h-20 flex items-center justify-center border rounded-lg cursor-pointer transition"
+                        [class.border-gray-300]="url" [class.bg-gray-100]="!url" [class.border-dashed]="!url"
+                        [class.border-gray-400]="!url" [class.hover\:bg-gray-200]="!url">
+                        @if (!url) {
+                        <svg class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
+                        } @else {
+                        <div class="relative w-full h-20">
+                            <i (click)="removeImage($index)"
+                                class="fa-solid fa-xmark absolute top-1 right-2 cursor-pointer text-gray-600 hover:text-red-500 transition"></i>
+                            <img [src]="url" alt="SubImage {{$index+1}}"
+                                class="w-full h-full object-contain rounded-lg border" />
+                        </div>
+                        }
+                    </label>
+                    <input [id]="'productSubImage' + $index" type="file" accept="image/*" class="hidden"
+                        (change)="onSubFileSelected($event, $index)" />
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let titleControl = addProductForm.get('title');
+                <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                <div class="relative">
+                    <input placeholder="title" formControlName="title" type="text" id="title"
+                        class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                </div>
+
+                @if (titleControl?.errors && titleControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (titleControl?.getError('required')) {
+                            <li>Title is required.</li>
+                            }
+                            @if (titleControl?.getError('minlength')) {
+                            <li>Title must be at least 3 characters long.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let descriptionControl = addProductForm.get('description');
+                <label for="description"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description:</label>
+                <div class="relative">
+                    <textarea placeholder="Description" formControlName="description" type="text" id="description"
+                        class="bg-white focus:ring-transparent border h-[100px] focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"></textarea>
+                </div>
+
+                @if (descriptionControl?.errors && descriptionControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (descriptionControl?.getError('required')) {
+                            <li>Description is required.</li>
+                            }
+                            @if (descriptionControl?.getError('minlength')) {
+                            <li>Description must be at least 10 characters long.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let priceControl = addProductForm.get('price');
+                <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">price:</label>
+                <div class="relative">
+                    <input placeholder="price" formControlName="price" type="number" id="price"
+                        class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                </div>
+                @if (priceControl?.errors && priceControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (priceControl?.getError('required')) {
+                            <li>Price is required.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let discountControl = addProductForm.get('discount');
+                <label for="discount"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">discount</label>
+                <div class="relative">
+                    <input placeholder="discount" formControlName="discount" type="number" id="discount"
+                        class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                </div>
+
+                @if (discountControl?.errors && discountControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (discountControl?.getError('required')) {
+                            <li>Discount is required.</li>
+                            }
+                            @if (discountControl?.getError('min')) {
+                            <li>Discount must be greater than or equal to 0.</li>
+                            }
+                            @if (discountControl?.getError('max')) {
+                            <li>Discount cannot exceed 100%.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let stockControl = addProductForm.get('stock');
+                <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">stock</label>
+                <div class="relative">
+                    <input placeholder="stock" formControlName="stock" type="number" id="stock"
+                        class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+                </div>
+                @if (stockControl?.errors && stockControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (stockControl?.getError('required')) {
+                            <li>Stock is required.</li>
+
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="my-3">
+                @let categoryControl = addProductForm.get('category');
+
+                <div class="flex flex-col gap-2">
+                    <label for="category">Select Category : </label>
+                    <select id="category" formControlName="category" class="form-select py-2 rounded border">
+
+                        @for (cat of categories; track $index) {
+                        <option [value]="cat.name">{{ cat.name }}</option>
+                        }
+                    </select>
+                </div>
+                @if (categoryControl?.errors && categoryControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (categoryControl?.getError('required')) {
+                            <li>Category is required.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+
+
+
+            <div class="ms-auto w-[30%]">
+                @if (!onUpdate()) {
+                <button [disabled]="addProductForm.invalid" [class.hover:bg-[#fff]]="addProductForm.valid"
+                    [class.hover:text-main-color]="addProductForm.valid"
+                    [class.hover:border-main-color]="addProductForm.valid"
+                    class="bg-[#0E7490]    border duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                    Add product
+                </button>
+                }
+                @if (onUpdate()) {
+                <button [disabled]="addProductForm.invalid" [class.hover:bg-[#fff]]="addProductForm.valid"
+                    [class.hover:text-main-color]="addProductForm.valid"
+                    [class.hover:border-main-color]="addProductForm.valid"
+                    class="bg-[#0E7490]  border duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                    Update product
+                </button>
+                }
+            </div>
+        </form>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-md">
+        <table class="min-w-full text-sm text-left text-gray-700">
+            <thead class="bg-[#38BDF8] text-white text-center">
+                <tr>
+                    <th class="px-6 py-3">#</th>
+                    <th class="px-6 py-3">Product name</th>
+                    <th class="px-6 py-3">Product price</th>
+                    <th class="px-6 py-3">Created by</th>
+                    <th class="px-6 py-3">User Address</th>
+                    <th class="px-6 py-3 text-center">Actions</th>
+                </tr>
+            </thead>
+            @for (product of allProducts; track $index) {
+            <tbody>
+                <tr class="border-b hover:bg-gray-50 text-center">
+                    <td class="px-6 py-4">{{$index+1}}</td>
+                    <td class="px-6 py-4">{{product.title}}</td>
+                    <td class="px-6 py-4">{{product.price}}</td>
+                    <td class="px-6 py-4">{{product.createdBy?.userName}}</td>
+                    <td class="px-6 py-4">{{product.createdBy?.address}}</td>
+                    <td class="px-6 py-4 flex justify-center gap-2">
+                        <button (click)="editProduct(product)"
+                            class="bg-[#0E7490] text-white px-4 py-1 rounded hover:bg-[#0c637a]">Edit <i
+                                class="fa-solid fa-pen-to-square text-white ps-1"></i></button>
+                        <button (click)="viewSpeceficProduct(product._id)"
+                            class="bg-main-color text-white px-4 py-1 rounded hover:bg-[#0c637a]">View <i
+                                class="fa-solid fa-eye text-white ps-1"></i></button>
+                        <button (click)="deleteProductByAdmin(product.id)"
+                            class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Delete <i
+                                class="fa-solid fa-trash-can text-white ps-1"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            }
+
+        </table>
+    </div>
+</div>
+
+@if (showInfo()) {
+
+<div (click)="closeModal($event)" (window:keydown.escape)="showInfo.set(false)"
+    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-lg relative">
+        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="showInfo.set(false)">
+            ✕
+        </button>
+
+        <h2 class="text-xl font-bold text-[#0E7490] mb-4">Product Details</h2>
+
+        <div class="space-y-2 text-gray-700 ">
+            <div class="imgs ">
+                <img class="w-full h-52 object-contain" [src]="selectedProduct.imageCover.secure_url"
+                    alt="Product image">
+                <div class="grid md:grid-cols-4 gap-2">
+                    @for (image of selectedProduct.subImages; track $index) {
+                    <img class="w-full h-28 object-contain rounded-lg" [src]="image.secure_url" alt="product subimage">
+                    }
+                </div>
+            </div>
+            <p><span class="font-semibold">Product name:</span> {{ selectedProduct.title }}</p>
+            <p><span class="font-semibold">Category name:</span> {{ selectedProduct.category.name}}</p>
+            <h3 class="text-sec-color text-xl font-bold">Created By:-</h3>
+            <p><span class="font-semibold">Name:</span> {{ selectedProduct.createdBy?.userName }}</p>
+            <p><span class="font-semibold">Phone:</span> {{ selectedProduct.createdBy?.mobileNumber }}</p>
+            <p><span class="font-semibold">Address:</span> {{ selectedProduct.createdBy?.address}}</p>
+
+        </div>
+    </div>
+</div>
+}

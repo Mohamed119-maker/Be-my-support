@@ -1,0 +1,10 @@
+.support-button {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    background: linear-gradient(to right, #0066cc, #a0e9ff);
+    /* التدرج */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,102 @@
+<div class="card p-6 bg-white rounded-xl shadow-md items-center">
+    <p-stepper [value]="1" class="mb-8">
+
+        <!-- Step 1 -->
+        <p-step-item [value]="1">
+            <p-step class="text-lg font-semibold text-primary">Enter Email</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <form [formGroup]="forgotPassForm" (ngSubmit)="forgotPassword()" class="space-y-6">
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Your Email:</label>
+                            <input formControlName="email" type="email" id="email" placeholder="Mohamed@gmail.com"
+                                class="mt-1 block w-full rounded-md border border-sec-color shadow-sm focus:border-sec-color focus:ring-transparent focus:outline-sec-color text-sm p-2.5" />
+
+                            @if (forgotPassForm.get('email')?.errors && forgotPassForm.get('email')?.touched) {
+                            <div class="text-red-500 text-sm mt-2">
+                                @if (forgotPassForm.get('email')?.getError('required')) {
+                                <div>Email is required.</div>
+                                }
+                                @if (forgotPassForm.get('email')?.getError('email')) {
+                                <div>Invalid email format.</div>
+                                }
+                            </div>
+                            }
+                        </div>
+
+                        @if (forgotPassForm.valid) {
+                        <div class="flex justify-end">
+                            <p-button label="Next" type="submit" (onClick)="activateCallback(2)"
+                                icon="pi pi-arrow-right" />
+                        </div>
+                        }
+                    </form>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+        <!-- Step 2 -->
+        <p-step-item [value]="2">
+            <p-step class="text-lg font-semibold text-primary">Verify & Reset</p-step>
+            <p-step-panel>
+                <ng-template #content let-activateCallback="activateCallback">
+                    <form [formGroup]="changePassForm" (ngSubmit)="changePassword()" class="space-y-6">
+                        <p class="text-gray-500 mb-4 text-center">Check your email, we sent you a code.</p>
+
+                        <div>
+                            <input readonly formControlName="email" type="email" id="email"
+                                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm p-2.5" />
+
+                        </div>
+                        <div>
+                            <label for="newPass" class="block text-sm font-medium text-gray-700 mb-1">New
+                                Password:</label>
+                            <input formControlName="newPass" type="password" id="newPass" placeholder="New Password"
+                                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 text-sm p-2.5" />
+
+                            @if (changePassForm.get('newPass')?.errors && changePassForm.get('newPass')?.touched) {
+                            <div class="text-red-500 text-sm mt-2">
+                                @if (changePassForm.get('newPass')?.getError('required')) {
+                                <div>Password is required.</div>
+                                }
+                                @if (changePassForm.get('newPass')?.getError('pattern')) {
+                                <div>Password must be strong.</div>
+                                }
+                            </div>
+                            }
+                        </div>
+
+                        <div>
+                            <label for="otpCode" class="block text-sm font-medium text-gray-700 mb-1">Reset Code
+                                (OTP):</label>
+                            <p-inputotp formControlName="otp" [length]="6" [mask]="false" id="otpCode"
+                                inputStyleClass="bg-white border border-gray-300 focus:outline-primary-500 focus:ring-primary-500 text-gray-900 text-sm rounded-lg p-2.5 w-full"></p-inputotp>
+
+                            @if (changePassForm.get('otp')?.errors && changePassForm.get('otp')?.touched) {
+                            <div class="text-red-500 text-sm mt-2">
+                                @if (changePassForm.get('otp')?.getError('required')) {
+                                <div>Reset code is required.</div>
+                                }
+                                @if (changePassForm.get('otp')?.getError('pattern')) {
+                                <div>Invalid OTP format.</div>
+                                }
+                            </div>
+                            }
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <p-button label="Back" severity="secondary" (onClick)="activateCallback(1)"
+                                icon="pi pi-arrow-left" />
+                            <button type="submit" (click)="hideForgotPass()"
+                                class="bg-primary-500 hover:bg-primary-600 transition-all text-white font-semibold py-2 px-4 rounded-lg flex items-center gap-2">
+                                Reset Password
+                                <i class="pi pi-check"></i>
+                            </button>
+                        </div>
+                    </form>
+                </ng-template>
+            </p-step-panel>
+        </p-step-item>
+
+    </p-stepper>
+</div>
