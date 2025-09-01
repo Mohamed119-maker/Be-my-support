@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import "flowbite/src/themes/default";
+
+@keyframes bounceUpDown {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.animate-bounce-up-down {
+    animation: bounceUpDown 0.5s infinite ease-in-out;
+}
+
+/* أخفي الـ scroll من منطقة الصور المصغرة */
+.p-galleria-thumbnail-container {
+    overflow: hidden !important;
+}
+
+/* لو في container داخلي بيعمل scroll */
+.p-galleria-thumbnail-items-container {
+    overflow: hidden !important;
+}
+
+/* أخفي scrollbar في حالته القصوى */
+.p-galleria-thumbnail-items-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+html::-webkit-scrollbar {
+    width: 0.5rem;
+    background-color: white;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color:
+        #38BDF8;
+    border-radius: 5rem;
+}

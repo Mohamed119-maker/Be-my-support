@@ -1,0 +1,376 @@
+<section class="grid md:grid-cols-2 ">
+    @if (step()===1) {
+    <div class="flex items-center justify-center w-full py-10  overflow-scroll">
+        <div class="login-page w-[80%] ">
+            <h1 class="text-4xl font-semibold text-[#38BDF8] pb-3">Create a new account</h1>
+            <p class=" text-lg text-gray-400 py-1">Please log in or sign up to continue using our app.</p>
+            <form [formGroup]='registerForm' (ngSubmit)=" submitForm()">
+                <div class="my-3">
+                    @let nameControl = registerForm.get('userName');
+                    <label for="userName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        User Name:
+                    </label>
+                    <div class="relative">
+                        <i class="fa-regular animate-bounce-up-down fa-user  absolute text-[#38BDF8] left-2 top-3"></i>
+                        <input placeholder="Mohamed Diab" formControlName="userName" type="text" id="userName"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-7 ">
+                    </div>
+
+                    @if (nameControl?.errors && nameControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (nameControl?.getError('required')) {
+                                <li>Name is required</li>
+                                }
+                                @if (nameControl?.getError('minlength')) {
+                                <li>Name must be at least 3 characters long</li>
+                                }
+                                @if (nameControl?.getError('maxlength')) {
+                                <li>Name must not exceed 50 characters</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="mb-3">
+                    @let emailControl = registerForm.get('email');
+                    <label for="email"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email:</label>
+                    <div class="relative">
+                        <i
+                            class="fa-regular fa-envelope absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                        <input placeholder="Mohamed@gmail.com" formControlName="email" type="email" id="email"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg  block w-full ps-7 p-2.5">
+                    </div>
+
+                    @if (emailControl?.errors && emailControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (emailControl?.getError('required')) {
+                                <li>Email is required</li>
+                                }
+                                @if (emailControl?.getError('email')) {
+                                <li>Please enter a valid email address</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="mb-">
+                    @let passwordControl = registerForm.get('password');
+                    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Password:</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+
+                        <input placeholder="xxxxxxxxx" formControlName="password"
+                            [type]="showPassword ? 'text' : 'password'" id="password"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg  block w-full ps-7 pe-10 p-2.5">
+                        <button type="button" (click)="togglePasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+
+                    @if (passwordControl?.errors && passwordControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (passwordControl?.getError('required')) {
+                                <li>Password is required</li>
+                                }
+                                @if (passwordControl?.getError('pattern')) {
+                                <li>Password must contain uppercase letters, lowercase letters, and numbers</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="Cpassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        RePassword:</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                        <input placeholder="xxxxxxxxx" formControlName="Cpassword"
+                            [type]="showConfirmPassword ? 'text' : 'password'" id="Cpassword"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full ps-7 pe-10 p-2.5">
+                        <button type="button" (click)="toggleConfirmPasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+                    @if (registerForm.getError('mismatch') && registerForm.get('Cpassword')?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (registerForm.getError('mismatch') && registerForm.get('Cpassword')?.touched) {
+                                <li>Passwords do not match</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+
+                </div>
+                <div class="mb-3">
+                    @let phoneControl = registerForm.get('mobileNumber');
+                    <label for="mobileNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Phone Number:
+                    </label>
+                    <div class="relative">
+                        <i
+                            class="fa-solid fa-mobile-screen-button absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                        <input placeholder="01 (0-1-2 or 5) 55919229" formControlName="mobileNumber" type="tel"
+                            id="mobileNumber"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-7">
+                    </div>
+
+                    @if (phoneControl?.errors && phoneControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (phoneControl?.getError('required')) {
+                                <li>Phone number is required</li>
+                                }
+                                @if (phoneControl?.getError('pattern')) {
+                                <li>Please enter a valid phone number</li>
+                                }
+                            </ul>
+
+                        </div>
+                    </div>
+                    }
+                </div>
+                <div class="mb-3">
+                    @let addressControl = registerForm.get('address');
+                    <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Address:
+                    </label>
+                    <div class="relative">
+                        <i class="fa-solid fa-house absolute text-[#38BDF8] left-2 top-3  animate-bounce-up-down"></i>
+
+                        <input placeholder="Tanta elbahr street" formControlName="address" type="text" id="address"
+                            class="bg-gray-100 border border-sec-color focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full p-2.5 ps-7">
+                    </div>
+
+                    @if (addressControl?.errors && addressControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                        role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="sr-only">Danger</span>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (addressControl?.getError('required')) {
+                                <li>Address is required</li>
+                                }
+                                @if (addressControl?.getError('pattern')) {
+                                <li>Address must follow the correct format</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <button [disabled]="isLoading" type="submit"
+                    class="bg-[#0E7490] hover:bg-[#184d5c] duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                    Sign Up
+                    @if (isLoading) {
+                    <span><i class="fas fa-spin fa-spinner"></i></span>
+                    }
+                </button>
+
+
+
+            </form>
+
+            <div class="register-footer text-center">
+                <p class="text-gray-500 text-xs my-1"></p>
+                <div class="social my-2">
+                    <span class="mx-1"><i class="fa-brands fa-google-plus  text-blue-600 text-xl"></i></span>
+                    <span class="mx-1"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i></span>
+                    <span class="mx-1"><i class="fa-brands fa-apple text-2xl"></i></span>
+                </div>
+                <div class="log-in ">
+                    <span class="text-sm text-gray-500 font-medium">Already have an account ? </span>
+                    <a routerLink="/login" class="text-[#38BDF8] text-sm font-semibold hover:underline cursor-pointer">
+                        Sing in </a>
+                    <span class="text-sm text-gray-500 font-medium">Or</span>
+                    <a (click)="step.set(2)"
+                        class="text-[#38BDF8] text-sm font-semibold hover:underline cursor-pointer"> Verify
+                        Your
+                        Account</a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    }
+    @else if (step()===2) {
+    <section>
+        <div class="flex items-center justify-center w-full py-10 bg-gray-100 h-[100vh]">
+            <div class="login-page w-[80%]">
+                <h1 class="text-4xl font-semibold text-[#38BDF8] pb-3">
+                    Verify Your Account!
+                </h1>
+                <p class="text-lg text-gray-400 py-1">
+                    We've sent a verification code to your email address. Please check your inbox and enter the code
+                    below.
+                </p>
+                <form [formGroup]="otpForm" (ngSubmit)="verifyAcc()">
+                    <div class="my-3">
+                        @let emailOtp = otpForm.get('email');
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Email Address
+                        </label>
+                        <div class="relative">
+                            <i
+                                class="fa-regular fa-envelope absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                            <input placeholder="example@email.com" formControlName="email" type="email" id="email"
+                                class="bg-white focus:ring-transparent border-transparent focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full ps-7 p-2.5" />
+                        </div>
+                        @if (emailOtp?.errors && emailOtp?.touched) {
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <ul class="mt-1.5 list-disc list-inside">
+                                    @if (emailOtp?.getError('required')) {
+                                    <li>Email is required</li>
+                                    }
+                                    @if (emailOtp?.getError('email')) {
+                                    <li>Please enter a valid email address</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <div class="my-3">
+                        @let otpCode = otpForm.get('otpCode');
+                        <label for="otpCode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            Verification Code
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                            <input placeholder="Enter 6-digit code" formControlName="otpCode" type="text" id="otpCode"
+                                class="bg-white focus:ring-transparent border-transparent focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full ps-7 p-2.5" />
+                        </div>
+                        @if (otpCode?.errors && otpCode?.touched) {
+                        <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            role="alert">
+                            <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="sr-only">Danger</span>
+                            <div>
+                                <ul class="mt-1.5 list-disc list-inside">
+                                    @if (otpCode?.getError('required')) {
+                                    <li>Verification code is required</li>
+                                    }
+                                    @if (otpCode?.getError('pattern')) {
+                                    <li>Please enter a valid 6-digit code</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <button [disabled]="isLoading" type="submit"
+                        class="bg-[#0E7490] hover:bg-[#184d5c] duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                        Verify Account
+                        @if (isLoading) {
+                        <span><i class="fas fa-spin fa-spinner"></i></span>
+                        }
+                    </button>
+
+                    <div class="text-center mt-4">
+                        <p class="text-sm text-gray-500">Didn't receive the code?</p>
+                        <button type="button" (click)="step.set(1)"
+                            class="text-[#38BDF8] text-sm font-semibold hover:underline cursor-pointer">
+                            Back to Registration
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    }
+
+
+    <div class=" text-white text-center relative ">
+        <owl-carousel-o [options]="authSlider">
+
+
+            @for (img of imgs ; track $index) {
+            <ng-template carouselSlide>
+                <!-- content -->
+
+                <img [src]="img" alt="Register Slider" class="min-h-[100vh]">
+
+            </ng-template>
+            }
+
+
+        </owl-carousel-o>
+
+
+    </div>
+
+</section>

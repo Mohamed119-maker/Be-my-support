@@ -1,0 +1,132 @@
+<section>
+    <div class="flex items-center justify-center w-full py-10 bg-gray-100 h-[100vh]">
+        <div class="reset-pass-page w-[90%] md:w-[50%] border border-sec-color rounded shadow-lg px-5 py-7">
+            <h1 class="text-sec-color text-center text-3xl font-bold py-3">Change Your Password</h1>
+            <p class="text-gray-500 text-center mb-6">Please enter your current password and choose a new password</p>
+
+            <form [formGroup]='resetPassForm' (ngSubmit)="resetPass()">
+                <!-- Old Password -->
+                <div class="my-3">
+                    @let oldPassControl = resetPassForm.get('oldPassword');
+                    <label for="oldPassword" class="block mb-2 text-sm font-medium text-sec-color">Current
+                        Password:</label>
+                    <div class="relative">
+                        <input placeholder="Enter your current password" formControlName="oldPassword"
+                            [type]="showOldPassword ? 'text' : 'password'" id="oldPassword"
+                            class="bg-white focus:ring-transparent border-transparent focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 pe-10">
+                        <button type="button" (click)="toggleOldPasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showOldPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showOldPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+
+                    @if (oldPassControl?.errors && oldPassControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (oldPassControl?.getError('required')) {
+                                <li>Current password is required</li>
+                                }
+                                @if (oldPassControl?.getError('pattern')) {
+                                <li>Password must contain at least 8 characters, including uppercase, lowercase, and
+                                    numbers</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- New Password -->
+                <div class="mb-3">
+                    @let newPassControl = resetPassForm.get('newPassword');
+                    <label for="newPassword" class="block mb-2 text-sm font-medium text-sec-color">New Password:</label>
+                    <div class="relative">
+                        <input placeholder="Enter your new password" formControlName="newPassword"
+                            [type]="showNewPassword ? 'text' : 'password'" id="newPassword"
+                            class="bg-white border-transparent focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full p-2.5 pe-10">
+                        <button type="button" (click)="toggleNewPasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showNewPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showNewPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+
+                    @if (newPassControl?.errors && newPassControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (newPassControl?.getError('required')) {
+                                <li>New password is required</li>
+                                }
+                                @if (newPassControl?.getError('pattern')) {
+                                <li>Password must contain at least 8 characters, including uppercase, lowercase, and
+                                    numbers</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mb-3">
+                    @let CpasswordControl = resetPassForm.get('Cpassword');
+                    <label for="Cpassword" class="block mb-2 text-sm font-medium text-sec-color">Confirm
+                        Password:</label>
+                    <div class="relative">
+                        <input placeholder="Confirm your new password" formControlName="Cpassword"
+                            [type]="showConfirmPassword ? 'text' : 'password'" id="Cpassword"
+                            class="bg-white border-transparent focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full p-2.5 pe-10">
+                        <button type="button" (click)="toggleConfirmPasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showConfirmPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+
+                    @if ((CpasswordControl?.errors || resetPassForm.getError('mismatch')) && CpasswordControl?.touched)
+                    {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (CpasswordControl?.getError('required')) {
+                                <li>Please confirm your new password</li>
+                                }
+                                @if (resetPassForm.getError('mismatch')) {
+                                <li>Passwords do not match</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <button [disabled]="isLoading || resetPassForm.invalid"
+                    class="bg-[#0E7490] hover:bg-[#184d5c] duration-100 px-4 py-2 text-white my-2 w-[50%] block mx-auto rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
+                    @if (isLoading) {
+                    <span><i class="fas fa-spin fa-spinner"></i> Changing password...</span>
+                    } @else {
+                    Change Password
+                    }
+                </button>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,137 @@
+<section class="grid md:grid-cols-2 h-[100vh]">
+
+    <div class="flex items-center justify-center w-full py-10 bg-gray-100 h-[100vh]">
+        <div class="login-page w-[80%]">
+            <h1 class="text-4xl font-semibold text-[#38BDF8] pb-3">Welcome Back!</h1>
+            <h2 class="text-2xl font-semibold text-[#0E7490]">Helping hands, hopeful hearts</h2>
+
+            <form [formGroup]="loginForm" (ngSubmit)="submitLoginForm()" class="space-y-4">
+
+                <!-- Email Input -->
+                <div class="my-3">
+                    @let emailControl = loginForm.get('email');
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
+                        Address</label>
+                    <div class="relative">
+                        <i
+                            class="fa-regular fa-envelope absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                        <input placeholder="Mohamed@gmail.com" formControlName="email" type="email" id="email"
+                            class="bg-white focus:ring-transparent border-transparent focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full ps-7 p-2.5">
+                    </div>
+
+                    @if (emailControl?.errors && emailControl?.touched) {
+                    <div class="flex  p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (emailControl?.getError('required')) {
+                                <li>Email is required.</li>
+                                }
+                                @if (emailControl?.getError('email')) {
+                                <li>Email format is invalid.</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-3">
+                    @let passwordControl = loginForm.get('password');
+                    <label for="password"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute text-[#38BDF8] left-2 top-3 animate-bounce-up-down"></i>
+                        <input placeholder="xxxxxxxxx" formControlName="password"
+                            [type]="showPassword ? 'text' : 'password'" id="password"
+                            class="bg-white border-transparent focus:outline-[#0E7490] focus:border-gray-300 focus:ring-transparent text-gray-900 text-sm rounded-lg block w-full ps-7 pe-10 p-2.5">
+                        <button type="button" (click)="togglePasswordVisibility()"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer"
+                            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                            <i [class]="showPassword ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye'"></i>
+                        </button>
+                    </div>
+
+                    @if (passwordControl?.errors && passwordControl?.touched) {
+                    <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <div>
+                            <ul class="mt-1.5 list-disc list-inside">
+                                @if (passwordControl?.getError('required')) {
+                                <li>Password is required.</li>
+                                }
+                                @if (passwordControl?.getError('pattern')) {
+                                <li>Password must be at least 8 characters and strong.</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Remember Me and Forgot Password -->
+                <div class="forget-pass flex justify-between items-center py-2">
+                    <div class="flex items-center">
+                        <input
+                            class="rounded border-[#38BDF8] text-[#38BDF8] checked:outline-[#38BDF8] focus:ring-transparent checked:ring-[#38BDF8] me-1"
+                            id="remember" name="remember" type="checkbox">
+                        <label class="text-gray-500 text-xs" for="remember">Remember Me</label>
+                    </div>
+                    <a routerLink="/forget-pass"
+                        class="text-[#38BDF8] text-xs font-semibold hover:underline cursor-pointer">
+                        Forgot password?
+                    </a>
+                </div>
+
+                <!-- Submit Button -->
+                <button [disabled]="isLoading" type="submit"
+                    class="bg-[#0E7490] hover:bg-[#184d5c] duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                    @if (isLoading) {
+                    <span><i class="fas fa-spin fa-spinner"></i></span>
+                    } @else {
+                    Sign In
+                    }
+                </button>
+
+            </form>
+
+            <!-- Footer -->
+            <div class="login-footer text-center mt-6">
+                <p class="text-gray-500 text-xs my-1"></p>
+                <div class="social my-2">
+                    <span class="mx-1"><i class="fa-brands fa-google-plus text-blue-600 text-xl"></i></span>
+                    <span class="mx-1"><i class="fa-brands fa-facebook text-blue-600 text-xl"></i></span>
+                    <span class="mx-1"><i class="fa-brands fa-apple text-2xl"></i></span>
+                </div>
+                <div class="log-in">
+                    <span class="text-sm text-gray-500 font-medium">Don't have an account?</span>
+                    <a routerLink="/register"
+                        class="text-[#38BDF8] text-sm font-semibold hover:underline cursor-pointer">Sign up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Carousel Section -->
+    <div class="text-white text-center relative">
+        <owl-carousel-o [options]="loginSlider">
+            @for (img of imgs; track $index) {
+            <ng-template carouselSlide>
+                <img [src]="img" alt="login Slider" class="h-[100vh]">
+            </ng-template>
+            }
+        </owl-carousel-o>
+    </div>
+
+</section>

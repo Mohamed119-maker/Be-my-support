@@ -1,0 +1,260 @@
+<section class="bg-gray-100 shadow w-[90%] mx-auto border rounded m-4 p-3">
+    <h1 class="text-main-color p-2 text-2xl text-center">
+        Add Your Products Now....
+    </h1>
+    <form [formGroup]="updateProductForm" (ngSubmit)="updateProduct()">
+        <div class="my-3">
+            @let titleControl = updateProductForm.get('title');
+            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+            <div class="relative">
+                <input placeholder="title" formControlName="title" type="text" id="title"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+            </div>
+
+            @if (titleControl?.errors && titleControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (titleControl?.hasError('required')) {
+                        <li>Title is required.</li>
+                        }
+                        @if (titleControl?.hasError('minlength')) {
+                        <li>Title must be at least 3 characters.</li>
+                        }
+                        @if (titleControl?.hasError('maxlength')) {
+                        <li>Title cannot exceed 100 characters.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="my-3">
+            @let descriptionControl = updateProductForm.get('description');
+            <label for="description"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description:</label>
+            <div class="relative">
+                <textarea placeholder="Description" formControlName="description" type="text" id="description"
+                    class="bg-white focus:ring-transparent border h-[100px] focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"></textarea>
+            </div>
+
+            @if (descriptionControl?.errors && descriptionControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (descriptionControl?.hasError('required')) {
+                        <li>Description is required.</li>
+                        }
+                        @if (descriptionControl?.hasError('minlength')) {
+                        <li>Description must be at least 10 characters.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="my-3">
+            @let priceControl = updateProductForm.get('price');
+            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">price:</label>
+            <div class="relative">
+                <input placeholder="price" formControlName="price" type="number" id="price"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+            </div>@if (priceControl?.errors && priceControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (priceControl?.hasError('required')) {
+                        <li>Price is required.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="my-3">
+            @let discountControl = updateProductForm.get('discount');
+            <label for="discount" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">discount</label>
+            <div class="relative">
+                <input placeholder="discount" formControlName="discount" type="number" id="discount"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+            </div>
+
+            @if (discountControl?.errors && discountControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (discountControl?.hasError('min')) {
+                        <li>Discount cannot be less than 0%.</li>
+                        }
+                        @if (discountControl?.hasError('max')) {
+                        <li>Discount cannot be more than 100%.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="my-3">
+            @let stockControl = updateProductForm.get('stock');
+            <label for="stock" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">stock</label>
+            <div class="relative">
+                <input placeholder="stock" formControlName="stock" type="number" id="stock"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" />
+            </div>
+            @if (stockControl?.errors && stockControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (stockControl?.hasError('required')) {
+                        <li>Stock is required.</li>
+                        }
+                        @if (stockControl?.hasError('min')) {
+                        <li>Stock cannot be negative.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="my-3">
+            @let categoryControl = updateProductForm.get('category');
+            <div class="my-4">
+                <label for="category" class="block mb-2 text-sm font-medium text-gray-700">Select Category</label>
+                <select id="category" formControlName="category"
+                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-main-color focus:border-main-color block w-full p-2.5">
+
+                    <option value="" disabled>Select a category</option>
+
+                    @for (cat of categories; track $index) {
+                    <option [value]="cat.name">{{ cat.name }}</option>
+                    }
+                </select>
+            </div>
+
+            @if (categoryControl?.errors && categoryControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (categoryControl?.hasError('required')) {
+                        <li>Category is required.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="my-3">
+            @let imageCoverControl = updateProductForm.get('imageCover');
+            <label for="imageCover" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Image :</label>
+            <div class="relative">
+                <input placeholder="Image" formControlName="imageCover" type="file" accept="image/png, image/jpeg"
+                    id="imageCover"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    (change)="onImageCoverChange($event)" />
+            </div>
+
+            @if (imageCoverControl?.errors && imageCoverControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (imageCoverControl?.hasError('required')) {
+                        <li>Image cover is required.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="my-3">
+            @let subImagesControl = updateProductForm.get('subImages');
+            <label for="subImages" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">subImages
+                :</label>
+            <div class="relative">
+                <!-- حقل الصور الفرعية -->
+                <!-- حقل الصور الفرعية -->
+                <input placeholder="subImages" formControlName="subImages" accept="image/png, image/jpeg" multiple
+                    type="file" id="subImages"
+                    class="bg-white focus:ring-transparent border focus:outline-[#0E7490] focus:border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
+                    (change)="onSubImagesChange($event)" />
+            </div>@if (subImagesControl?.errors && subImagesControl?.touched) {
+            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Danger</span>
+                <div>
+                    <ul class="mt-1.5 list-disc list-inside">
+                        @if (subImagesControl?.hasError('required')) {
+                        <li>At least one sub image is required.</li>
+                        }
+                        @if (subImagesControl?.hasError('minlength')) {
+                        <li>You must upload at least one sub image.</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+
+        <div class="ms-auto w-[30%]">
+            <button type="submit" [disabled]="updateProductForm.invalid"
+                class="bg-[#0E7490] hover:bg-[#fff] hover:text-main-color hover:border-main-color border duration-100 px-4 py-2 text-white my-2 w-full rounded-full">
+                update product
+            </button>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,141 @@
+// Dashboard container
+.dashboard-container {
+    min-height: 100vh;
+    background-color: #f9fafb;
+}
+
+// Stats cards
+.stats-card {
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-4px);
+    }
+
+    .stat-icon {
+        background-color: rgba(255, 255, 255, 0.2);
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+}
+
+// Dashboard cards
+.dashboard-card {
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+// Activity items
+.activity-item {
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        background-color: #f9fafb;
+    }
+
+    .activity-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.new-user {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+
+        &.new-product {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        &.category-update {
+            background-color: #fef9c3;
+            color: #ca8a04;
+        }
+
+        &.user-activity {
+            background-color: #f3e8ff;
+            color: #7c3aed;
+        }
+    }
+}
+
+// Chart customization
+:host ::ng-deep {
+    .p-chart {
+        width: 100%;
+
+        canvas {
+            width: 100% !important;
+        }
+    }
+}
+
+// Progress bar customization
+:host ::ng-deep {
+    .p-progressbar {
+        background: #f3f4f6;
+        border-radius: 9999px;
+        height: 0.5rem !important;
+
+        .p-progressbar-value {
+            border-radius: 9999px;
+            background: linear-gradient(to right, #3b82f6, #2563eb);
+        }
+    }
+}
+
+// Button customization
+:host ::ng-deep {
+    .p-button {
+        border-radius: 0.5rem;
+
+        &.p-button-text {
+            &:enabled:hover {
+                background: rgba(59, 130, 246, 0.04);
+            }
+        }
+
+        &.justify-start {
+            justify-content: flex-start;
+            padding-left: 1rem;
+
+            .p-button-icon {
+                margin-right: 0.75rem;
+            }
+        }
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 1280px) {
+    .dashboard-container {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+}
+
+// Loading state
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}

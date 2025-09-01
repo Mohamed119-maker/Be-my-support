@@ -1,0 +1,76 @@
+<section class="container mx-auto pt-[50px] min-h-[80vh]">
+    <h1 class="text-3xl md:text-4xl font-bold text-center text-main-color my-8">
+        My Wishlist
+    </h1>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+    <div class="flex justify-center items-center h-[400px]">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-main-color"></div>
+    </div>
+    }
+
+    <!-- Empty State -->
+    @else if (wishlistItems().length === 0) {
+    <div class="flex flex-col items-center justify-center gap-6 py-12">
+        <div class="text-8xl text-gray-300">
+            <i class="pi pi-heart"></i>
+        </div>
+        <h2 class="text-2xl font-semibold text-gray-600">Your wishlist is empty</h2>
+        <p class="text-gray-500">Browse our products and add some items to your wishlist!</p>
+        <a routerLink="/products"
+            class="mt-4 px-6 py-3 bg-main-color text-white rounded-full hover:bg-opacity-90 transition-all duration-200">
+            Explore Products
+        </a>
+    </div>
+    }
+
+    <!-- Wishlist Items -->
+    @else {
+    @for (prod of wishlistItems(); track prod._id) {
+    <div class="card mb-4 hover:shadow-lg transition-shadow duration-200">
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12">
+                <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4">
+                    <!-- Product Image -->
+                    <div class="md:w-40 relative">
+                        <img class="block xl:block mx-auto rounded-lg w-full object-cover"
+                            [src]="prod.imageCover.secure_url" [alt]="prod.title" />
+                    </div>
+
+                    <!-- Product Details -->
+                    <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+                        <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                            <div>
+                                <h3 class="text-xl font-semibold text-gray-800">{{ prod.title }}</h3>
+                                <p class="text-gray-600 mt-2">{{ prod.description }}</p>
+                            </div>
+                            @if (prod.discount > 0) {
+                            <div class="bg-red-100 px-3 py-1 rounded-full">
+                                <span class="text-red-600 font-medium">{{ prod.discount }}% OFF</span>
+                            </div>
+                            }
+                        </div>
+
+                        <!-- Price and Actions -->
+                        <div class="flex flex-col md:items-end gap-4">
+                            <div class="flex flex-col items-end">
+                                <span class="text-2xl font-bold text-main-color">${{ prod.finalPrice }}</span>
+                                @if (prod.discount > 0) {
+                                <span class="text-sm text-gray-500 line-through">${{ prod.price }}</span>
+                                }
+                            </div>
+                            <button (click)="deleteProduct(prod._id)"
+                                class="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">
+                                <i class="pi pi-trash"></i>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    }
+</section>

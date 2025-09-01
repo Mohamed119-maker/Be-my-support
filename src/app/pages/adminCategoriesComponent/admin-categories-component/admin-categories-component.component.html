@@ -1,0 +1,167 @@
+<div class="px-6 bg-gray-100 min-h-screen">
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-[#0E7490]">Categories Management</h1>
+        <p class="text-gray-600">View,Update, and delete Categories</p>
+    </div>
+
+    <div
+        class="bg-white rounded-2xl overflow-hidden shadow-lg border hover:shadow-xl transition-shadow p-3 cursor-pointer my-5">
+        <h2 class="text-2xl font-semibold mb-6 text-main-color text-center">Update OR Add new category...</h2>
+        <form [formGroup]="addCategoryForm" class="space-y-6" (ngSubmit)="onSubmit()">
+
+            <!-- رفع صورة -->
+            <div class="flex flex-col items-center">
+                @let imageControl = addCategoryForm.get('image');
+
+                @if (!previewUrl) {
+                <label for="categoryImage"
+                    class="w-full h-20 flex items-center justify-center bg-gray-100 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-200 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+
+                </label>
+                }
+                @if (previewUrl) {
+                <div class="relative w-full">
+                    <i class="fa-solid fa-xmark absolute top-1 right-2" (click)="previewUrl=null"></i>
+                    <img [src]="previewUrl" alt="Preview" class="w-full h-20 object-contain rounded-lg border" />
+                </div>
+
+                }
+
+                <input id="categoryImage" type="file" accept="image/*" class="hidden"
+                    (change)="onFileSelected($event)" />
+                <p class="text-sm text-gray-500 mt-2">Click to choose an image</p>
+                @if (imageControl?.errors && imageControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (imageControl?.getError('required')) {
+                            <li>Image cover is required.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- اسم الكاتجوري -->
+            <div>
+                @let nameControl = addCategoryForm.get('name');
+
+                <label class="block mb-1 text-sm font-medium text-gray-700">Catgory name: </label>
+                <input formControlName="name" type="text" placeholder="Medical tools"
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none  bg-white focus:ring-1 focus:ring-[#0E7490]   focus:border-[#0E7490] text-gray-900 text-sm" />
+                @if (nameControl?.errors && nameControl?.touched) {
+                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                    role="alert">
+                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                    </svg>
+                    <span class="sr-only">Danger</span>
+                    <div>
+
+                        <ul class="mt-1.5 list-disc list-inside">
+                            @if (nameControl?.getError('required')) {
+                            <li>Name is required.</li>
+                            }
+                            @if (nameControl?.getError('minlength')) {
+                            <li>Name must be at least 3 characters.</li>
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+                }
+            </div>
+
+            <!-- زر الإرسال -->
+            <div class="text-center pt-2">
+                @if (onUpdate()===false) {
+                <button class="bg-sec-color hover:bg-[#236c86] text-white font-semibold py-2 px-24 rounded-lg shadow">
+                    Add <i class="fa-solid fa-plus text-white ps-1"></i>
+                </button>
+                }
+                @if (onUpdate()) {
+                <button class="bg-sec-color hover:bg-[#236c86] text-white font-semibold py-2 px-24 rounded-lg shadow">
+                    Update
+                </button>
+                }
+
+            </div>
+        </form>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-2xl shadow-md">
+        <table class="min-w-full text-sm text-left text-gray-700">
+            <thead class="bg-[#38BDF8] text-white text-center">
+                <tr>
+                    <th class="px-6 py-3">#</th>
+                    <th class="px-6 py-3">Category name</th>
+                    <th class="px-6 py-3">Created by</th>
+                    <th class="px-6 py-3">User Address</th>
+                    <th class="px-6 py-3 text-center">Actions</th>
+                </tr>
+            </thead>
+            @for (category of allCategories; track category._id) {
+            <tbody>
+                <tr class="border-b hover:bg-gray-50 text-center">
+                    <td class="px-6 py-4">{{$index+1}}</td>
+                    <td class="px-6 py-4">{{category.name}}</td>
+                    <td class="px-6 py-4">{{category.createdBy?.userName}}</td>
+                    <td class="px-6 py-4">{{category.createdBy?.address}}</td>
+                    <td class="px-6 py-4 flex justify-center gap-2">
+                        <button (click)="editCategory(category)"
+                            class="bg-[#0E7490] text-white px-4 py-1 rounded hover:bg-[#0c637a]">Edit <i
+                                class="fa-solid fa-pen-to-square text-white ps-1"></i></button>
+                        <button (click)="viewSpeceficCategory(category._id)"
+                            class="bg-main-color text-white px-4 py-1 rounded hover:bg-[#0c637a]">View <i
+                                class="fa-solid fa-eye text-white ps-1"></i></button>
+                        <button (click)="deleteCategoryByAdmin(category._id)"
+                            class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600">Delete <i
+                                class="fa-solid fa-trash-can text-white ps-1"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+            }
+
+        </table>
+    </div>
+
+</div>
+
+@if (showInfo()) {
+
+<div (click)="closeModal($event)" (window:keydown.escape)="showInfo.set(false)"
+    class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-lg relative">
+        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="showInfo.set(false)">
+            ✕
+        </button>
+
+        <h2 class="text-xl font-bold text-[#0E7490] mb-4">Category Details</h2>
+
+        <div class="space-y-2 text-gray-700">
+            <img class="w-full h-56 object-contain" [src]="selectedCategory.image.secure_url" alt="Category image">
+            <p><span class="font-semibold">Category name:</span> {{ selectedCategory.name }}</p>
+            <p><span class="font-semibold">Publishing date:</span> {{ selectedCategory.createdAt}}</p>
+            <h3 class="text-sec-color text-xl font-bold">Created By</h3>
+            <p><span class="font-semibold">Name:</span> {{ selectedCategory.createdBy.userName }}</p>
+            <p><span class="font-semibold">Phone:</span> {{ selectedCategory.createdBy.mobileNumber }}</p>
+            <p><span class="font-semibold">Address:</span> {{ selectedCategory.createdBy.address}}</p>
+
+        </div>
+    </div>
+</div>
+}

@@ -1,0 +1,45 @@
+<div class="flex pt-[10px] relative">
+
+    <!-- Toggle Sidebar Button (Visible on small screens) -->
+    <button
+        class="md:hidden fixed top-[90px]  left-0 z-50 bg-sec-color text-white px-3 py-2 rounded transition-all duration-300 "
+        [class.left-52]="sidebarOpen()" (click)="sidebarOpen.set(!sidebarOpen())">
+        ☰
+    </button>
+
+    <!-- Sidebar -->
+    <aside
+        class="text-white md:translate-x-0 md:static md:block  transition-transform duration-300 absolute z-40 top-0 left-0 min-h-screen p-4 bg-sec-color"
+        [class.translate-x-0]="sidebarOpen()" [class.-translate-x-full]="!sidebarOpen()"
+        [class.text-white]="sidebarOpen()" [class.bg-sec-color]="sidebarOpen()" [class.w-64]="sidebarOpen()">
+
+        <h2 class="text-xl font-bold mb-6">Admin Panel</h2>
+        <nav class="space-y-4  cursor-pointer">
+            <a routerLink="/dashboard-overview" routerLinkActive="text-main-color"
+                class="block hover:underline">Overview</a>
+            <a routerLink="/admin-products" routerLinkActive="text-main-color"
+                class="block hover:underline">Products</a>
+            <a routerLink="/admin-categories" routerLinkActive="text-main-color"
+                class="block hover:underline">Categories</a>
+            <a routerLink="/admin-users" routerLinkActive="text-main-color" class="block hover:underline">Users</a>
+
+
+        </nav>
+        <a (click)="logout()"
+            class="block mt-5 px-4 py-2  bg-red-600 text-white text-center text-md rounded hover:bg-red-700 cursor-pointer">
+            LogOut</a>
+    </aside>
+
+    <div class="flex-1 flex flex-col min-h-screen bg-gray-100 ml-0 md:ml-20">
+
+        <!-- Header -->
+        <header class="bg-white shadow p-4 flex justify-between items-center">
+            <h1 class="text-xl font-semibold text-[var(--sec-color)]">Be My Support Admin Dashboard</h1>
+            <span class="text-gray-600">Welcome 👋</span>
+        </header>
+
+        <div class="py-7 px-5">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

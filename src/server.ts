@@ -41,6 +41,12 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use('/**', (req, res, next) => {
+  // Skip prerendering for dynamic routes
+  if (req.url.includes('/details/') || req.url.includes('/updateproduct/')) {
+    next();
+    return;
+  }
+
   angularApp
     .handle(req)
     .then((response) =>

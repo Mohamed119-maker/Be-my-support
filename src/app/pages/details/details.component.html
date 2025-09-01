@@ -1,0 +1,94 @@
+<section class="container mx-auto mt-[100px] min-h-screen items-center">
+    <h1 class="text-4xl text-main-color font-semibold text-center py-7">Product Details</h1>
+    <div class="grid md:grid-cols-2 gap-5 ">
+
+        <div class="w-full max-w-2xl mx-auto">
+            <p-galleria [value]="imageList" [(activeIndex)]="activeImageIndex"
+                [containerStyle]="{ 'max-width': '100%' }" [numVisible]="galleriaOptions.numVisible"
+                [showThumbnails]="galleriaOptions.showThumbnails" [showIndicators]="galleriaOptions.showIndicators"
+                [showItemNavigators]="galleriaOptions.showItemNavigators"
+                [showThumbnailNavigators]="galleriaOptions.showThumbnailNavigators"
+                [circular]="galleriaOptions.circular" [autoPlay]="galleriaOptions.autoPlay"
+                [transitionInterval]="galleriaOptions.transitionInterval"
+                [responsiveOptions]="galleriaOptions.responsiveOptions" thumbnailsPosition="left"
+                [class.hidden]="!imageList.length">
+
+                <!-- Main image template -->
+                <ng-template pTemplate="item" let-item>
+                    <div
+                        class="w-full h-[400px] flex items-center justify-center overflow-hidden rounded-lg relative bg-gray-50">
+                        <img [src]="item" [alt]="prodDetails.title"
+                            class="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
+                            (error)="handleImageError($event)" loading="lazy" />
+                        @if (!item) {
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span class="text-gray-400">No image available</span>
+                        </div>
+                        }
+                    </div>
+                </ng-template>
+
+                <!-- Thumbnail template -->
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="flex justify-center items-center h-[70px] w-[100px] bg-gray-50 overflow-hidden">
+                        <img [src]="item" [alt]="prodDetails.title"
+                            class="h-full w-full object-contain rounded-md border border-gray-300 hover:scale-105 transition-transform duration-200"
+                            (error)="handleImageError($event)" loading="lazy" />
+                    </div>
+                </ng-template>
+
+            </p-galleria>
+
+            <!-- Fallback for no images -->
+            @if (!imageList.length) {
+            <div class="w-full h-[400px] flex items-center justify-center bg-gray-50 rounded-lg">
+                <span class="text-gray-400">No images available</span>
+            </div>
+            }
+        </div>
+        <div>
+            <h2 class="text-2xl font-bold  capitalize rounded"><span class="text-sec-color">publisher name:
+                </span>{{prodDetails.createdBy?.userName}}
+            </h2>
+            <h3 class="text-2xl font-semibold text-sec-color py-4">Final Price : <span
+                    class="text-black">{{prodDetails.finalPrice}}</span></h3>
+            <h3 class="text-xl font-medium">{{prodDetails.title}}</h3>
+            <p class="text-sm py-2 text-gray-400">{{prodDetails.description}}</p>
+            <div class="flex justify-start items-center  gap-6 text-lg text-sec-color font-medium">
+                <span class="">Discount: <span class="text-black font-bold">{{prodDetails.discount}} %</span></span>
+                <span>Price: <span class="text-black font-bold line-through">{{prodDetails.price}}</span></span>
+
+            </div>
+            <div class="flex flex-col items-start justify-center gap-4 my-3">
+                <div class="relative">
+                    <button (click)="togglePhoneNum()" [class.animate-fade-scale]="animate"
+                        [class.transition-all]="true" [class.duration-500]="true" [class.flex]="true"
+                        [class.items-center]="true" [class.justify-between]="true" [class.gap-2]="true"
+                        [class.px-6]="true" [class.py-2]="true" [class.text-white]="true" [class.text-xl]="true"
+                        [class.w-[300px]]="true" [class.rounded]="true" [class.z-10]="true" [class.bg-sec-color]="true">
+
+                        @if (showNumber) {
+                        <span>{{ prodDetails.createdBy.mobileNumber }}</span>
+                        <i class="fa-regular fa-copy cursor-pointer text-white text-lg"
+                            (click)="copyPhoneNumber($event)">
+                        </i>
+                        } @else {
+                        <span>Show phone number</span>
+                        <i class="fa-solid fa-phone ps-2"></i>
+                        }
+
+                    </button>
+                </div>
+
+                <button (click)="chatWhatsApp()"
+                    class="px-6 py-2 bg-green-300 text-white text-xl w-[300px] rounded">Chat
+                    whatsApp <i class="fa-brands fa-whatsapp ps-2 fa-xl"></i></button>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@if (showLoginPrompt()) {
+<app-login-prompt-modal (onClose)="closeLoginPrompt()"></app-login-prompt-modal>
+}
